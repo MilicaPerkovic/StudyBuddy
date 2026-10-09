@@ -26,7 +26,13 @@ npm install          # namesti odvisnosti za server/ in client/ (npm workspaces)
 npm run seed         # (neobvezno) demo uporabnik in vzorčni podatki
 ```
 
-Demo prijava po `npm run seed`: **demo@studybuddy.si / demo1234**
+Demo prijava po `npm run seed`: **demo@studybuddy.si / demo1234**.
+Ponovni zagon `npm run seed` demo uporabnika izbriše in ustvari na novo (vsi njegovi podatki se ponastavijo);
+drugih uporabnikov ne spreminja.
+
+> **Opomba (npm ≥ 11):** `npm install` lahko izpiše opozorilo `install scripts not yet covered by allowScripts`
+> za `esbuild` in `fsevents`. Opozorilo ni napaka – aplikacija, build in testi delujejo brez teh skript
+> (preverjeno z npm 11.19 in Node 26).
 
 ### Zagon v razvojnem načinu
 
@@ -35,7 +41,8 @@ npm run dev
 ```
 
 - API: http://localhost:3001 (preverjanje: http://localhost:3001/api/health)
-- Spletni vmesnik: http://localhost:5173 (Vite posreduje `/api` zahteve na port 3001)
+- Spletni vmesnik: http://localhost:5173 (Vite posreduje `/api` zahteve na port strežnika, privzeto 3001).
+  Če je port 5173 zaseden, Vite izbere naslednjega prostega (npr. 5174) in ga izpiše v konzoli.
 
 ### Produkcijski zagon
 
@@ -47,11 +54,11 @@ Aplikacija je nato dostopna na http://localhost:3001.
 
 ### Okoljske spremenljivke (neobvezno)
 
-| Spremenljivka | Privzeto                    | Opis                                                    |
-| ------------- | --------------------------- | ------------------------------------------------------- |
-| `PORT`        | `3001`                      | Port strežnika                                          |
-| `JWT_SECRET`  | `dev-secret-change-me`      | Skrivnost za podpis JWT (v produkciji obvezno spremeni) |
-| `DB_FILE`     | `server/data/studybuddy.db` | Pot do SQLite datoteke                                  |
+| Spremenljivka | Privzeto                    | Opis                                                        |
+| ------------- | --------------------------- | ----------------------------------------------------------- |
+| `PORT`        | `3001`                      | Port strežnika (v `npm run dev` ga uporabi tudi Vite proxy) |
+| `JWT_SECRET`  | `dev-secret-change-me`      | Skrivnost za podpis JWT (v produkciji obvezno spremeni)     |
+| `DB_FILE`     | `server/data/studybuddy.db` | Pot do SQLite datoteke                                      |
 
 ### Testi in kakovost kode
 

@@ -7,8 +7,8 @@ in samodejno v CI ob vsakem pushu na `main` in pull requestu.
 
 | Del                  | Testov                           | Pokritost vrstic                                         |
 | -------------------- | -------------------------------- | -------------------------------------------------------- |
-| Backend (`server/`)  | 49 (13 enotskih, 36 API)         | 88,6 % (routes 97,5 %, services 100 %, middleware 100 %) |
-| Frontend (`client/`) | 25 (16 enotskih, 9 komponentnih) | 25,6 %                                                   |
+| Backend (`server/`)  | 49 (13 enotskih, 36 API)         | 86,6 % (routes 97,6 %, services 100 %, middleware 100 %) |
+| Frontend (`client/`) | 25 (16 enotskih, 9 komponentnih) | 20,5 %                                                   |
 | **Skupaj**           | **74, vsi uspešni**              |                                                          |
 
 ## Aktivnosti
@@ -57,7 +57,7 @@ in samodejno v CI ob vsakem pushu na `main` in pull requestu.
 ### 6. Enotno oblikovanje kode
 
 - **Vrsta aktivnosti:** preverjanje sloga kode
-- **Stanje:** konfigurirano (`.prettierrc.json`, ukaz `npm run format:check`), v CI še ni vključeno
+- **Stanje:** konfigurirano (`.prettierrc.json`, ukaz `npm run format:check`), v CI še ni vključeno. Ob pregledu 7. 10. 2026 preverjanje ni uspelo zaradi neoblikovane datoteke `docs/STANJE_TESTIRANJA.md` – popravljeno, zdaj brez opozoril. Ker koraka ni v CI, takšne napake niso samodejno zaznane.
 - **Pokriti del rešitve:** celotna koda
 - **Orodja in ogrodja:** Prettier 3
 
@@ -71,16 +71,16 @@ in samodejno v CI ob vsakem pushu na `main` in pull requestu.
 ### 8. Neprekinjena integracija (CI)
 
 - **Vrsta aktivnosti:** avtomatsko izvajanje preverjanj
-- **Stanje:** konfigurirano (`.github/workflows/ci.yml`); začne delovati ob prvem pushu na GitHub
+- **Stanje:** konfigurirano (`.github/workflows/ci.yml`); repozitorij je objavljen na GitHubu (`MilicaPerkovic/StudyBuddy`), rezultat izvajanja je treba preveriti v zavihku _Actions_ (repozitorij ni javen, zato ga ob pregledu ni bilo mogoče preveriti od zunaj)
 - **Pokriti del rešitve:** ob vsakem pushu/PR: `npm ci` → lint → vsi testi s pokritostjo → produkcijski build frontenda
 - **Orodja in ogrodja:** GitHub Actions, Node.js 24
 
 ### 9. Ročno dimno (smoke) testiranje
 
 - **Vrsta aktivnosti:** ročno/skriptno preverjanje delovanja celotne aplikacije
-- **Stanje:** izvedeno enkratno, ni avtomatizirano
-- **Pokriti del rešitve:** zagon strežnika na demo podatkih (`npm run seed`), prijava, `/api/dashboard`, `/api/grades/summary`, serviranje zgrajenega frontenda
-- **Orodja in ogrodja:** curl
+- **Stanje:** izvedeno ročno (7. 10. 2026), ni avtomatizirano
+- **Pokriti del rešitve:** namestitev v čisto kopijo repozitorija po README, `npm run seed`, `npm run dev` in `npm start`; v brskalniku: prijava z demo računom (F1), pregledna plošča (F10), ocene in skupno povprečje – ročno preračunano 8,68 (F9), seznam obveznosti in sprememba stanja, ki se odrazi na plošči (F4, F5), iskanje zapiskov (F8). Med preverjanjem je bila odkrita napaka: Vite proxy je imel fiksen port 3001 in ni upošteval `PORT` – popravljeno v `client/vite.config.js`.
+- **Orodja in ogrodja:** curl, brskalnik
 
 ## Česa še ni (predlogi za nadaljnje vaje)
 
@@ -91,8 +91,8 @@ in samodejno v CI ob vsakem pushu na `main` in pull requestu.
 
 ## Uporaba umetne inteligence
 
-| Orodje                                                    | Za kaj je bilo uporabljeno                                                                                                                                                      | Kako je bil rezultat preverjen                                                                                                                                                                                                                                                                             |
-| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Orodje                                                    | Za kaj je bilo uporabljeno                                                                                                                                                      | Kako je bil rezultat preverjen                                                                                                                                                                                                                                                                                                                  |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Claude Code (Anthropic), model Claude Opus 5.5, v VS Code | Generiranje kode aplikacije (backend, frontend), testov, konfiguracije (ESLint, Prettier, CI) in osnutka te dokumentacije ("vibe coding" – razvoj z agentom na podlagi navodil) | Zagon vseh testov (74/74 uspešnih), ESLint brez napak, uspešen produkcijski build, ročni dimni test API-ja na demo podatkih, ročni pregled delovanja v brskalniku [DOPOLNI: datum in kaj si preverila]. Agent je med razvojem sam odkril in popravil napako v testnem okolju (Node 26 globalni `localStorage` je prekril jsdom implementacijo). |
 
 > Opomba: testi so bili generirani z istim orodjem kot koda, zato potrjujejo predvsem, da se koda obnaša tako,

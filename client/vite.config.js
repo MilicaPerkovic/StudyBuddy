@@ -5,7 +5,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    proxy: { '/api': 'http://localhost:3001' },
+    // same PORT variable as the server, so a custom port works in dev mode too
+    proxy: { '/api': `http://localhost:${process.env.PORT || 3001}` },
   },
   test: {
     environment: 'jsdom',
