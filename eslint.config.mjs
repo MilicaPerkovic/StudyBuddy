@@ -3,7 +3,15 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 
 export default [
-  { ignores: ['**/node_modules/**', '**/dist/**', '**/coverage/**'] },
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/coverage/**',
+      'playwright-report/**',
+      'test-results/**',
+    ],
+  },
   js.configs.recommended,
   {
     files: ['server/**/*.js'],
@@ -21,6 +29,11 @@ export default [
       // JSX identifiers count as "used" only with the react plugin; keep this rule lenient.
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z]' }],
     },
+  },
+  {
+    // E2E testi (Playwright): koda teče v Node.js, povratni klici page.evaluate pa v brskalniku.
+    files: ['e2e/**/*.js', 'playwright.config.mjs'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
   {
     files: ['*.js', 'client/vite.config.js'],

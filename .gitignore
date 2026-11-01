@@ -4,3 +4,5 @@ coverage/
 server/data/*.db*
 .env
 .DS_Store
+playwright-report/
+test-results/
